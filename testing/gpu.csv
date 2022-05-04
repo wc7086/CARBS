@@ -1,0 +1,24 @@
+pkg,Description,option
+mesa,An open-source implementation of the OpenGL specification,on
+xf86-video-fbdev,X.org framebuffer video driver,off
+xf86-video-vesa,X.org vesa video driver,off
+amf-amdgpu-pro(AUR),AMDGPU Pro Advanced Multimedia Framework,off
+amdgpu-pro-libgl(AUR),AMDGPU Pro OpenGL driver,off
+xf86-video-amdgpu,X.org amdgpu video driver,off
+xf86-video-ati,X.org ati video driver,off
+opencl-amd(AUR),This package is intended to work along with the free amdgpu stack,off
+amdvlk(AUR),AMD's standalone Vulkan driver,off
+vulkan-amdgpu-pro(AUR),AMDGPU Pro Advanced Multimedia Framework,off
+vulkan-radeon,off
+xf86-video-intel,X.org Intel i810/i830/i915/945G/G965+ video drivers,off
+vulkan-intel,Intel's Vulkan mesa driver,off
+xf86-video-nouveau,Open Source 3D acceleration driver for nVidia cards,off
+nvidia,NVIDIA drivers for linux,off
+nvidia-utils,NVIDIA drivers utilities,off
+nvidia-vulkan(AUR),NVIDIA drivers for linux (vulkan developer branch),off
+nvidia-vulkan-dkms(AUR),NVIDIA driver sources for linux (vulkan developer branch),off
+nvidia-vulkan-utils(AUR),NVIDIA drivers utilities,off
+opencl-nvidia-vulkan(AUR),OpenCL implemention for NVIDIA,off
+mesa-utils,essential Mesa utilities,off
+mesa-vdpau,Mesa VDPAU drivers,off
+vulkan-mesa-layers,Mesa's Vulkan layers,off
