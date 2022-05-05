@@ -288,6 +288,9 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	# Fix psutil
 	sed -i "/curr = cpuinfo_freqs\[i\]$/ s/$/ * 1000/" /usr/lib/python3.10/site-packages/psutil/_pslinux.py
 
+	# Enable lxpolkit
+	sed -i "/^Hidden=true$/d" /etc/xdg/autostart/lxpolkit.desktop
+
 	# Last message! Install complete!
 	finalize
 	clear
