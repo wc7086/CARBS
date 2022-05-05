@@ -21,7 +21,7 @@ welcome_msg() {
 
 get_user_and_pass() {
 	# Prompts user for new username an password.
-	name=$(dialog --title "User account name" --inputbox "First, please enter a name for the user account." 10 60 --output-fd 1) || { clear; exit 1; }
+	name=$(dialog --title "User account name" --inputbox "First, please enter a name for the user account." 8 60 --output-fd 1) || { clear; exit 1; }
 	while ! printf "%s" "$name" | grep -q "^[a-z_][a-z0-9_-]*$"; do
 		name=$(dialog --title "User account" --no-cancel --inputbox "Username not valid. Give a username beginning with a letter, with only lowercase letters, - or _." 10 60 --output-fd 1)
 	done
