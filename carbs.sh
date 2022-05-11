@@ -43,10 +43,6 @@ pre_install_msg() {
 	dialog --title "Let's get this party started!" --yes-label "Let's go!" --no-label "No, nevermind!" --yesno "The rest of the installation will now be totally automated, so you can sit back and relax.\n\nIt will take some time, but when done, you can relax even more with your complete system.\n\nNow just press <Let's go!> and the system will begin installation!" 12 60 || { clear; exit; }
 }
 
-install_fonts() {
-	dialog --defaultno --title "Fonts" --yesno "Do you need to install the Asia fonts package?\nhttps://github.com/chenjicheng/CARBS/blob/main/progs.csv" 6 60 && fonts="true" || fonts="false"
-}
-
 add_user_and_pass() {
 	# Adds user `$name` with password $pass1.
 	printf "Adding user \"%s\"...\n" "$name"
@@ -118,7 +114,6 @@ pip_install() {
 
 installation_loop() {
 	([[ -f "$progs_file" ]] && cp "$progs_file" /tmp/progs.csv) || curl -Ls "$progs_file" | sed '/^#/d' > /tmp/progs.csv
-	[[ "$fonts" == "true" ]] && ([[ -f "$fonts_file" ]] && cat "$fonts_file" >> /tmp/progs.csv || curl -Ls "$fonts_file" >> /tmp/progs.csv)
 	total=$(wc -l < /tmp/progs.csv)
 	aur_installed=$(pacman -Qqm)
 	while IFS=',' read -r tag program comment; do
@@ -169,14 +164,12 @@ main() {
 		r) dotfiles_repo=${OPTARG} && git ls-remote "$dotfiles_repo" || exit 1 ;;
 		b) repo_branch=${OPTARG} ;;
 		p) progs_file=${OPTARG} ;;
-		f) fonts_file=${OPTARG} ;;
 		a) aur_helper=${OPTARG} ;;
 		*) printf "Invalid option: -%s\n" "$OPTARG" && exit 1 ;;
 	esac done
 
 	[[ -z "$dotfiles_repo" ]] && dotfiles_repo="https://github.com/chenjicheng/voidrice.git"
 	[[ -z "$progs_file" ]] && progs_file="https://carbs.run/progs.csv"
-	[[ -z "$fonts_file" ]] && fonts_file="https://carbs.run/fonts.csv"
 	[[ -z "$aur_helper" ]] && aur_helper="yay"
 	[[ -z "$repo_branch" ]] && repo_branch="main"
 
@@ -192,9 +185,6 @@ main() {
 
 	# Get and verify username and password.
 	get_user_and_pass || ( error "User exited." && exit )
-
-	# Fonts.
-	install_fonts || ( error "User exited." && exit )
 
 	# Give warning if user already exists.
 	user_check || ( error "User exited." && exit )
