@@ -4,12 +4,9 @@
 ,kicad,
 ,kicad-library,
 ,kicad-library-3d,
-,obs-studio,
 ,gimp,
 ,wireshark-qt,
 ,keepassxc,
 ,veracrypt,
-,flameshot,
-,virtualbox,
 A,gcc-arm-none-eabi-bin
 ,openocd,
