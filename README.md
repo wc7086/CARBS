@@ -9,8 +9,7 @@ https://github.com/chenjicheng/CARBS
 On an live system of Arch linux as root, run the following:
 
 ```bash
-curl -LO https://carbs.run/archinstall.sh
-bash archinstall.sh
+archinstall
 ```
 
 On an Arch-based distribution as root, run the following:
