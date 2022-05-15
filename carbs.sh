@@ -239,7 +239,7 @@ https://landchad.net/rss.xml
 https://based.cooking/index.xml
 https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/urls"
 	# make git ignore deleted LICENSE & README.md files
-	git update-index --assume-unchanged "/home/$name/README.md" "/home/$name/LICENSE" "/home/$name/FUNDING.yml"
+	git update-index --assume-unchanged "/home/$name/README.md" "/home/$name/LICENSE" "/home/$name/FUNDING.yml" "/home/$name/.git" "/home/$name/.gitmodules"
 
 	# Most important command! Get rid of the beep!
 	system_beep_off
