@@ -99,12 +99,14 @@ installation_loop() {
 			*) main_install_list+="$program " ;;
 		esac
 	done < /tmp/progs.csv
-	main_install "$main_install_list"
-	aur_install "$aur_install_list"
-	pip_install "$pip_install_list"
-	for x in "${git_make_install_list[@]}"; do
-		git_make_install "$x"
-	done
+	[[ -n $main_install_list ]] && main_install "$main_install_list"
+	[[ -n $aur_install_list ]] && aur_install "$aur_install_list"
+	[[ -n $pip_install_list ]] && pip_install "$pip_install_list"
+	if [[ -n ${git_make_install_list[@]} ]]; then
+		for x in "${git_make_install_list[@]}"; do
+			git_make_install "$x"
+		done
+	fi
 }
 
 put_git_repo() { # Downloads a gitrepo $1 and places the files in $2 only overwriting conflicts
