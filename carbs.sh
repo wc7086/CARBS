@@ -255,7 +255,7 @@ GLFW_IM_MODULE=ibus\n" >> /etc/environment
 });\n" > /etc/polkit-1/rules.d/nopasswd.rules
 
 	# usermod
-	[[ -z $(command -v wireshark) ]] && usermod -aG wireshark $name
+	[[ -n $(command -v wireshark) ]] && usermod -aG wireshark $name
 
 	# Last message! Install complete!
 	finalize
