@@ -213,6 +213,9 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	sed -i 's/arch.pool/pool/g' /etc/ntp.conf
 	sed -i '/[0-9].pool/s/$/ iburst/' /etc/ntp.conf
 
+	# Add NOPASSWD
+	sed -i "\#^${name}#s#\$# NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime#" /etc/sudoers.d/*_$name
+
 	# Last message! Install complete!
 	finalize
 	clear
