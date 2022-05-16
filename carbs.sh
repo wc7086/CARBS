@@ -81,8 +81,7 @@ aur_install() {
 
 pip_install() {
 	printf "Installing the Python package \`%s\`.\n" "$@"
-	[[ -x "$(command -v "pip")" ]] || python -m ensurepip --upgrade
-	yes | pip install $@
+	yes | sudo -u $name python -m pip install $@
 }
 
 installation_loop() {
@@ -177,7 +176,7 @@ main() {
 	grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 	sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 
-	required_software="curl ca-certificates base-devel git ntp"
+	required_software="curl ca-certificates base-devel git ntp python"
 	printf "Installing \`%s\` which is required to install and configure other programs.\n" "$required_software"
 	install_pkg "$required_software"
 
@@ -192,6 +191,8 @@ main() {
 
 	# Use all cores for compilation.
 	sed -i "s/-j2/-j$(nproc)/;/^#MAKEFLAGS/s/^#//" /etc/makepkg.conf
+
+	[[ -x "$(command -v "pip")" ]] || sudo -u $name python -m ensurepip --upgrade
 
 	manual_install yay || ( error "Failed to install AUR helper." && exit 1 )
 
