@@ -223,18 +223,18 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	# Activating numlock on bootup.
 	mkdir -p /etc/systemd/system/getty@.service.d
 	printf "[Service]
-	ExecStartPre=/bin/sh -c 'setleds -D +num < /dev/%%I'\n" > /etc/systemd/system/getty@.service.d/activate-numlock.conf
+ExecStartPre=/bin/sh -c 'setleds -D +num < /dev/%%I'\n" > /etc/systemd/system/getty@.service.d/activate-numlock.conf
 
 	# Enable freetype2.
 	sed -i '/^#.*FREETYPE_PROPERTIES/s/#//' /etc/profile.d/freetype2.sh
 
 	# fcitx5 environment.
 	printf "GTK_IM_MODULE=fcitx
-	QT_IM_MODULE=fcitx
-	XMODIFIERS=@im=fcitx
-	INPUT_METHOD=fcitx
-	SDL_IM_MODULE=fcitx
-	GLFW_IM_MODULE=ibus\n" >> /etc/environment
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+INPUT_METHOD=fcitx
+SDL_IM_MODULE=fcitx
+GLFW_IM_MODULE=ibus\n" >> /etc/environment
 
 	# Fix psutil
 	sed -i "/curr = cpuinfo_freqs\[i\]$/ s/$/ * 1000/" /usr/lib/python3.10/site-packages/psutil/_pslinux.py
