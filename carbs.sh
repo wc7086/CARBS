@@ -36,6 +36,10 @@ pre_install_msg() {
 	dialog --title "Let's get this party started!" --yes-label "Let's go!" --no-label "No, nevermind!" --yesno "The rest of the installation will now be totally automated, so you can sit back and relax.\n\nIt will take some time, but when done, you can relax even more with your complete system.\n\nNow just press <Let's go!> and the system will begin installation!" 12 60 || { clear; exit; }
 }
 
+install_tools() {
+	dialog --defaultno --title "Tools" --yesno "Do you need to install the optional tool package?\nhttps://github.com/chenjicheng/CARBS/blob/main/tools.csv" 6 60 && fonts="true" || fonts="false"
+}
+
 manual_install() { # Installs $1 manually. Used only for AUR helper here.
 	# Should be run after repodir is created and var is set.
 	printf "Installing \"%s\", an AUR helper...\n" "$1"
@@ -74,6 +78,7 @@ pip_install() {
 
 installation_loop() {
 	([[ -f "$progs_file" ]] && cp "$progs_file" /tmp/progs.csv) || curl -Ls "$progs_file" | sed '/^#/d' > /tmp/progs.csv
+	[[ "$fonts" == "true" ]] && ([[ -f "$tools_file" ]] && cat "$tools_file" >> /tmp/progs.csv || curl -Ls "$tools_file" >> /tmp/progs.csv)
 	total=$(wc -l < /tmp/progs.csv)
 	aur_installed=$(pacman -Qqm)
 	while IFS=',' read -r tag program comment; do
@@ -124,12 +129,14 @@ main() {
 		r) dotfiles_repo=${OPTARG} && git ls-remote "$dotfiles_repo" || exit 1 ;;
 		b) repo_branch=${OPTARG} ;;
 		p) progs_file=${OPTARG} ;;
+		t) tools_file=${OPTARG} ;;
 		a) aur_helper=${OPTARG} ;;
 		*) printf "Invalid option: -%s\n" "$OPTARG" && exit 1 ;;
 	esac done
 
 	[[ -z "$dotfiles_repo" ]] && dotfiles_repo="https://github.com/chenjicheng/voidrice.git"
 	[[ -z "$progs_file" ]] && progs_file="https://carbs.run/progs.csv"
+	[[ -z "$tools_file" ]] && tools_file="https://carbs.run/tools.csv"
 	[[ -z "$aur_helper" ]] && aur_helper="yay"
 	[[ -z "$repo_branch" ]] && repo_branch="main"
 
@@ -145,6 +152,9 @@ main() {
 
 	# Get and verify username and password.
 	get_user || ( error "User exited." && exit )
+
+	# Fonts.
+	install_tools || ( error "User exited." && exit )
 
 	# Give warning if user already exists.
 	user_check || ( error "User exited." && exit )
@@ -215,6 +225,9 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 
 	# Add NOPASSWD
 	sed -i "\#^${name}#s#\$# NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime#" /etc/sudoers.d/*_$name
+
+	# usermod
+	[[ -z $(command -v wireshark) ]] && usermod -aG wireshark $name
 
 	# Last message! Install complete!
 	finalize
