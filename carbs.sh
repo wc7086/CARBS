@@ -36,6 +36,11 @@ pre_install_msg() {
 	dialog --title "Let's get this party started!" --yes-label "Let's go!" --no-label "No, nevermind!" --yesno "The rest of the installation will now be totally automated, so you can sit back and relax.\n\nIt will take some time, but when done, you can relax even more with your complete system.\n\nNow just press <Let's go!> and the system will begin installation!" 12 60 || { clear; exit; }
 }
 
+add_folder() {
+	printf "Adding user \"%s\" folder...\n" "$name"
+	export repodir="/home/$name/.local/src"; mkdir -p "$repodir"; chown -R "$name":wheel "$(dirname "$repodir")"
+}
+
 install_tools() {
 	dialog --defaultno --title "Tools" --yesno "Do you need to install the optional tool package?\nhttps://github.com/chenjicheng/CARBS/blob/main/tools.csv" 6 60 && fonts="true" || fonts="false"
 }
@@ -174,6 +179,8 @@ main() {
 
 	printf "Synchronizing system time to ensure successful and secure installation of software...\n"
 	ntpdate 0.pool.ntp.org
+
+	add_folder || ( error "Error adding user folder." && exit 1 )
 
 	# Use all cores for compilation.
 	sed -i "s/-j2/-j$(nproc)/;/^#MAKEFLAGS/s/^#//" /etc/makepkg.conf
