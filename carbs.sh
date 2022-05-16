@@ -158,7 +158,7 @@ main() {
 	grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 	sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 
-	required_software="curl ca-certificates base-devel git ntp dos2unix"
+	required_software="curl ca-certificates base-devel git ntp"
 	printf "Installing \`%s\` which is required to install and configure other programs.\n" "$required_software"
 	install_pkg "$required_software"
 
@@ -212,9 +212,6 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	sed -i "s/Arch's //g" /etc/ntp.conf
 	sed -i 's/arch.pool/pool/g' /etc/ntp.conf
 	sed -i '/[0-9].pool/s/$/ iburst/' /etc/ntp.conf
-
-	# Fix newline on fstab
-	dos2unix /etc/fstab
 
 	# Last message! Install complete!
 	finalize
