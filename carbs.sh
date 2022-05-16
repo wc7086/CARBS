@@ -46,7 +46,7 @@ install_tools() {
 }
 
 new_permissions() { # Set special sudoers settings for install (or after).
-	printf "%s" "$@" > /etc/sudoers/*_$name
+	printf "%s" "$@" > /etc/sudoers.d/*_$name
 }
 
 manual_install() { # Installs $1 manually. Used only for AUR helper here.
