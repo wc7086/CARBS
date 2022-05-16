@@ -45,6 +45,10 @@ install_tools() {
 	dialog --defaultno --title "Tools" --yesno "Do you need to install the optional tool package?\nhttps://github.com/chenjicheng/CARBS/blob/main/tools.csv" 6 60 && fonts="true" || fonts="false"
 }
 
+new_permissions() { # Set special sudoers settings for install (or after).
+	printf "%s" "$@" >> /etc/sudoers/*_$name
+}
+
 manual_install() { # Installs $1 manually. Used only for AUR helper here.
 	# Should be run after repodir is created and var is set.
 	printf "Installing \"%s\", an AUR helper...\n" "$1"
@@ -182,6 +186,10 @@ main() {
 
 	add_folder || ( error "Error adding user folder." && exit 1 )
 
+	# Allow user to run sudo without password. Since AUR programs must be installed
+	# in a fakeroot environment, this is required for all builds with AUR.
+	new_permissions "${name} ALL=(ALL) NOPASSWD: ALL"
+
 	# Use all cores for compilation.
 	sed -i "s/-j2/-j$(nproc)/;/^#MAKEFLAGS/s/^#//" /etc/makepkg.conf
 
@@ -204,6 +212,9 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 
 	# Most important command! Get rid of the beep!
 	system_beep_off
+
+	# Add NOPASSWD
+	new_permissions "${name} ALL=(ALL) ALL\n{name} ALL=(ALL) NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime"
 
 	# Activating numlock on bootup.
 	mkdir -p /etc/systemd/system/getty@.service.d
@@ -229,9 +240,6 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	sed -i "s/Arch's //g" /etc/ntp.conf
 	sed -i 's/arch.pool/pool/g' /etc/ntp.conf
 	sed -i '/[0-9].pool/s/$/ iburst/' /etc/ntp.conf
-
-	# Add NOPASSWD
-	sed -i "\#^${name}#s#\$# NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime#" /etc/sudoers.d/*_$name
 
 	# usermod
 	[[ -z $(command -v wireshark) ]] && usermod -aG wireshark $name
