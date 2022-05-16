@@ -46,7 +46,7 @@ install_tools() {
 }
 
 new_permissions() { # Set special sudoers settings for install (or after).
-	printf "%s" "$@" >> /etc/sudoers/*_$name
+	printf "%s" "$@" > /etc/sudoers/*_$name
 }
 
 manual_install() { # Installs $1 manually. Used only for AUR helper here.
@@ -214,7 +214,8 @@ https://www.archlinux.org/feeds/news/ "tech"\n' > "/home/$name/.config/newsboat/
 	system_beep_off
 
 	# Add NOPASSWD
-	new_permissions "${name} ALL=(ALL) ALL\n{name} ALL=(ALL) NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime"
+	new_permissions "${name} ALL=(ALL) ALL
+{name} ALL=(ALL) NOPASSWD: /usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/packer -Syu,/usr/bin/packer -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/paru,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/veracrypt,/usr/bin/uptime"
 
 	# Activating numlock on bootup.
 	mkdir -p /etc/systemd/system/getty@.service.d
