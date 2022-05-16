@@ -108,7 +108,7 @@ aur_install() {
 
 pip_install() {
 	printf "Installing the Python package \`%s\`.\n" "$@"
-	[[ -x "$(command -v "pip")" ]] || install_pkg python-pip
+	[[ -x "$(command -v "pip")" ]] || python -m ensurepip --upgrade
 	yes | pip install $@
 }
 
