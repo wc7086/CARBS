@@ -206,7 +206,7 @@ main() {
 
 	# Install the dotfiles in the user's home directory
 	put_git_repo "$dotfiles_repo" "/home/$name" "$repo_branch"
-	rm -f "/home/$name/README.md" "/home/$name/LICENSE" "/home/$name/FUNDING.yml" "/home/$name/.git" "/home/$name/.gitmodules"
+	rm -rf "/home/$name/README.md" "/home/$name/LICENSE" "/home/$name/FUNDING.yml" "/home/$name/.git" "/home/$name/.gitmodules"
 	# Create default urls file if none exists.
 	[[ ! -f "/home/$name/.config/newsboat/urls" ]] && printf 'https://news.ycombinator.com/rss
 https://landchad.net/rss.xml
