@@ -246,13 +246,13 @@ GLFW_IM_MODULE=ibus\n" >> /etc/environment
 	sed -i '/[0-9].pool/s/$/ iburst/' /etc/ntp.conf
 
 	# Temporary Solutions
-	printf "polkit.addRule(function(action, subject) {
+	printf 'polkit.addRule(function(action, subject) {
         if (((action.id == "org.freedesktop.udisks2.filesystem-fstab") ||
             (action.id == "org.freedesktop.udisks2.filesystem-mount-system")) &&
             subject.local && subject.active) {
             return polkit.Result.YES;
         }
-});\n" > /etc/polkit-1/rules.d/nopasswd.rules
+});\n' > /etc/polkit-1/rules.d/nopasswd.rules
 
 	# usermod
 	[[ -n $(command -v wireshark) ]] && usermod -aG wireshark $name
