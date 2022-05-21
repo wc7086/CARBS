@@ -12,7 +12,7 @@
 ,man-db,"lets you read man pages of programs"
 ,ncmpcpp,"a ncurses interface for music with multiple formats and a powerful tag editor"
 ,newsboat,"is a terminal RSS client"
-,firefox,"is an elegant browser"
+A,firefox-nightly-bin,"is an elegant browser"
 ,ntfs-3g,"allows accessing NTFS partitions"
 A,abook,"is an offline addressbook usable by neomutt"
 ,unclutter,"hides an inactive mouse"
