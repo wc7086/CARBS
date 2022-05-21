@@ -8,7 +8,7 @@
 ,neovim,"a tidier vim with some useful features"
 ,mpd,"is a lightweight music daemon"
 ,mpc,"is a terminal interface for mpd"
-,mpv,"is the patrician's choice video player"
+,vlc,"Multi-platform MPEG, VCD/DVD, and DivX player"
 ,man-db,"lets you read man pages of programs"
 ,ncmpcpp,"a ncurses interface for music with multiple formats and a powerful tag editor"
 ,newsboat,"is a terminal RSS client"
