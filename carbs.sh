@@ -248,6 +248,9 @@ GLFW_IM_MODULE=ibus\n" >> /etc/environment
 	# usermod
 	[[ -n $(command -v wireshark) ]] && usermod -aG wireshark $name
 
+	# Prefer IPv4 over IPv6
+	sed '/^#precedence ::ffff:0:0\/96  100$/s/#//' /etc/gai.conf
+
 	# Last message! Install complete!
 	finalize
 	clear
