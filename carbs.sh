@@ -254,5 +254,8 @@ GLFW_IM_MODULE=ibus\n" >> /etc/environment
 	# Last message! Install complete!
 	finalize
 	clear
+
+	# enable bluez
+	systenctl enable bluetooth.service
 }
 main "$@"
