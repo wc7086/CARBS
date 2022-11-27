@@ -256,6 +256,6 @@ GLFW_IM_MODULE=ibus\n" >> /etc/environment
 	clear
 
 	# enable bluez
-	systenctl enable bluetooth.service
+	systemctl enable bluetooth.service
 }
 main "$@"
